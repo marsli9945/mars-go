@@ -1,7 +1,5 @@
 package marsType
 
-import "github.com/marsli9945/mars-go/marsLog"
-
 type Queue[T any] []T
 
 func (q *Queue[T]) Push(v T) {
@@ -10,7 +8,6 @@ func (q *Queue[T]) Push(v T) {
 
 func (q *Queue[T]) Pop() T {
 	if q.IsEmpty() {
-		marsLog.Logger().Error("queue is empty")
 		return *new(T)
 	}
 	head := (*q)[0]

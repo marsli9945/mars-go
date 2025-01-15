@@ -3,6 +3,7 @@ package marsType
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type Array[T string | int] []T
@@ -34,15 +35,14 @@ func ArrayInitForMap[T string | int](m map[T]bool) Array[T] {
 }
 
 func (arr Array[T]) SplitArray(chunkSize int) []Array[T] {
-	var result []Array[T]
 	n := len(arr)
 	if chunkSize <= 0 || n == 0 {
-		return result
+		return []Array[T]{}
 	}
 
 	// 预分配内存
 	numChunks := (n + chunkSize - 1) / chunkSize
-	result = make([]Array[T], 0, numChunks)
+	result := make([]Array[T], 0, numChunks)
 
 	for i := 0; i < n; i += chunkSize {
 		end := min(i+chunkSize, n)
@@ -62,29 +62,30 @@ func (arr Array[T]) Contains(target T) bool {
 }
 
 func (arr Array[T]) NotContains(target T) bool {
-	for _, t := range arr {
-		if target == t {
-			return false
-		}
-	}
-	return true
+	return !arr.Contains(target)
 }
 
-func (arr Array[T]) Join(sep string) (arrayStr string) {
-	var str string
-	for i, s := range arr {
-		if i == 0 {
-			str = convertToString(s)
-		} else {
-			str += fmt.Sprintf("%s%s", sep, convertToString(s))
-		}
+func (arr Array[T]) Join(sep string) string {
+	if len(arr) == 0 {
+		return ""
 	}
-	return str
+
+	var builder strings.Builder
+	builder.Grow(len(arr) * (len(sep) + 1)) // 预估长度以提高性能
+
+	for i, s := range arr {
+		if i > 0 {
+			builder.WriteString(sep)
+		}
+		builder.WriteString(convertToString(s))
+	}
+
+	return builder.String()
 }
 
 // convertToString 将传入的参数s，可能是string或者int，都转为string输出
-func convertToString(s any) string {
-	switch v := s.(type) {
+func convertToString[T string | int](s T) string {
+	switch v := any(s).(type) {
 	case string:
 		return v
 	case int:
