@@ -30,3 +30,41 @@ func TestArray(t *testing.T) {
 	str := arrayInitForMap.Join(",")
 	marsLog.Logger().InfoF("arrayInitForMap: %s", str)
 }
+
+func TestQueue(t *testing.T) {
+	queue := make(marsType.Queue[int], 0, 5)
+	queue.Push(1)
+	queue.Push(2)
+	queue.Push(3)
+	queue.Push(4)
+	queue.Push(5)
+
+	//for !queue.IsEmpty() {
+	//	marsLog.Logger().InfoF("queue: %v", queue.Pop())
+	//}
+
+	for i := 0; i < 6; i++ {
+		marsLog.Logger().InfoF("queue: %v", queue.Pop())
+	}
+}
+
+func TestSet(t *testing.T) {
+	set := marsType.NewSet[string]()
+	elements := []string{"1", "2", "3", "4", "5", "6"}
+	set.AddAll(elements)
+	//set.Add("1")
+	//set.Add("2")
+	//set.Add("3")
+	//set.Add("3")
+	//set.Add("4")
+	//set.Add("4")
+	//set.Add("4")
+	//set.Add("4")
+	//set.Add("5")
+	//set.Add("6")
+
+	marsLog.Logger().InfoF("list: %v", set.ToList())
+
+	set.Remove("4")
+	marsLog.Logger().InfoF("list: %v", set.ToList())
+}
