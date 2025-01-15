@@ -23,4 +23,10 @@ func TestArray(t *testing.T) {
 
 	marsLog.Logger().InfoF("notContains2: %v", notContains2)
 	marsLog.Logger().InfoF("notContains11: %v", notContains11)
+
+	arrayInitForMap := marsType.ArrayInitForMap(map[int]bool{1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true})
+	marsLog.Logger().InfoF("arrayInitForMap: %v", arrayInitForMap)
+
+	str := arrayInitForMap.Join(",")
+	marsLog.Logger().InfoF("arrayInitForMap: %s", str)
 }
