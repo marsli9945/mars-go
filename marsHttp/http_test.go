@@ -3,7 +3,6 @@ package marsHttp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/marsli9945/mars-go/marsHttp"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -42,7 +41,7 @@ func TestGet_Success(t *testing.T) {
 	defer server.Close()
 
 	url := server.URL + "/get"
-	body, err := marsHttp.Get(url)
+	body, err := Get(url)
 	if err != nil {
 		t.Errorf("Get failed: %v", err)
 	}
@@ -56,7 +55,7 @@ func TestGet_Error(t *testing.T) {
 	defer server.Close()
 
 	url := server.URL + "/error"
-	body, err := marsHttp.Get(url)
+	body, err := Get(url)
 	if err == nil {
 		t.Errorf("Expected error, got none")
 	}
@@ -71,7 +70,7 @@ func TestPost_Success(t *testing.T) {
 
 	url := server.URL + "/post"
 	data := map[string]any{"key": "value"}
-	body, err := marsHttp.Post(url, data)
+	body, err := Post(url, data)
 	if err != nil {
 		t.Errorf("Post failed: %v", err)
 	}
@@ -87,7 +86,7 @@ func TestPostAndHeaderForStruct_Success(t *testing.T) {
 	url := server.URL + "/json"
 	headers := map[string]string{"Authorization": "Bearer token"}
 	var result map[string]string
-	err := marsHttp.PostAndHeaderForStruct(url, nil, headers, &result)
+	err := PostAndHeaderForStruct(url, nil, headers, &result)
 	if err != nil {
 		t.Errorf("PostAndHeaderForStruct failed: %v", err)
 	}
@@ -103,7 +102,7 @@ func TestGetAndHeaderForStruct_Success(t *testing.T) {
 	url := server.URL + "/json"
 	headers := map[string]string{"Authorization": "Bearer token"}
 	var result map[string]string
-	err := marsHttp.GetAndHeaderForStruct(url, headers, &result)
+	err := GetAndHeaderForStruct(url, headers, &result)
 	if err != nil {
 		t.Errorf("GetAndHeaderForStruct failed: %v", err)
 	}

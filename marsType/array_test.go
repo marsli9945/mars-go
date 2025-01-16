@@ -1,7 +1,6 @@
 package marsType
 
 import (
-	"github.com/marsli9945/mars-go/marsType"
 	"reflect"
 	"sort"
 	"testing"
@@ -10,14 +9,14 @@ import (
 func TestArrayInitForList(t *testing.T) {
 	tests := []struct {
 		input    []int
-		expected marsType.Array[int]
+		expected Array[int]
 	}{
-		{nil, marsType.Array[int]{}},
-		{[]int{1, 2, 3}, marsType.Array[int]{1, 2, 3}},
+		{nil, Array[int]{}},
+		{[]int{1, 2, 3}, Array[int]{1, 2, 3}},
 	}
 
 	for _, test := range tests {
-		actual := marsType.ArrayInitForList(test.input)
+		actual := ArrayInitForList(test.input)
 		if !reflect.DeepEqual(actual, test.expected) {
 			t.Errorf("ArrayInitForList(%v) = %v; expected %v", test.input, actual, test.expected)
 		}
@@ -27,14 +26,14 @@ func TestArrayInitForList(t *testing.T) {
 func TestArrayInitForMap(t *testing.T) {
 	tests := []struct {
 		input    map[int]bool
-		expected marsType.Array[int]
+		expected Array[int]
 	}{
-		{nil, marsType.Array[int]{}},
-		{map[int]bool{1: true, 2: true}, marsType.Array[int]{1, 2}},
+		{nil, Array[int]{}},
+		{map[int]bool{1: true, 2: true}, Array[int]{1, 2}},
 	}
 
 	for _, test := range tests {
-		actual := marsType.ArrayInitForMap(test.input)
+		actual := ArrayInitForMap(test.input)
 		sort.Ints(actual)
 		if !reflect.DeepEqual(actual, test.expected) {
 			t.Errorf("ArrayInitForMap(%v) = %v; expected %v", test.input, actual, test.expected)
@@ -44,13 +43,13 @@ func TestArrayInitForMap(t *testing.T) {
 
 func TestSplitArray(t *testing.T) {
 	tests := []struct {
-		input     marsType.Array[int]
+		input     Array[int]
 		chunkSize int
-		expected  []marsType.Array[int]
+		expected  []Array[int]
 	}{
-		{marsType.Array[int]{1, 2, 3, 4, 5}, 2, []marsType.Array[int]{{1, 2}, {3, 4}, {5}}},
-		{marsType.Array[int]{1, 2, 3, 4, 5}, 0, []marsType.Array[int]{}},
-		{marsType.Array[int]{}, 3, []marsType.Array[int]{}},
+		{Array[int]{1, 2, 3, 4, 5}, 2, []Array[int]{{1, 2}, {3, 4}, {5}}},
+		{Array[int]{1, 2, 3, 4, 5}, 0, []Array[int]{}},
+		{Array[int]{}, 3, []Array[int]{}},
 	}
 
 	for _, test := range tests {
@@ -63,12 +62,12 @@ func TestSplitArray(t *testing.T) {
 
 func TestContains(t *testing.T) {
 	tests := []struct {
-		input    marsType.Array[int]
+		input    Array[int]
 		target   int
 		expected bool
 	}{
-		{marsType.Array[int]{1, 2, 3}, 2, true},
-		{marsType.Array[int]{1, 2, 3}, 4, false},
+		{Array[int]{1, 2, 3}, 2, true},
+		{Array[int]{1, 2, 3}, 4, false},
 	}
 
 	for _, test := range tests {
@@ -81,12 +80,12 @@ func TestContains(t *testing.T) {
 
 func TestNotContains(t *testing.T) {
 	tests := []struct {
-		input    marsType.Array[int]
+		input    Array[int]
 		target   int
 		expected bool
 	}{
-		{marsType.Array[int]{1, 2, 3}, 2, false},
-		{marsType.Array[int]{1, 2, 3}, 4, true},
+		{Array[int]{1, 2, 3}, 2, false},
+		{Array[int]{1, 2, 3}, 4, true},
 	}
 
 	for _, test := range tests {
@@ -99,13 +98,13 @@ func TestNotContains(t *testing.T) {
 
 func TestJoin(t *testing.T) {
 	tests := []struct {
-		input    marsType.Array[int]
+		input    Array[int]
 		sep      string
 		expected string
 	}{
-		{marsType.Array[int]{}, ",", ""},
-		{marsType.Array[int]{1, 2, 3}, ",", "1,2,3"},
-		{marsType.Array[int]{1, 2, 3}, "", "123"},
+		{Array[int]{}, ",", ""},
+		{Array[int]{1, 2, 3}, ",", "1,2,3"},
+		{Array[int]{1, 2, 3}, "", "123"},
 	}
 
 	for _, test := range tests {

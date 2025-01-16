@@ -1,4 +1,4 @@
-package marsType
+package test
 
 import (
 	"github.com/marsli9945/mars-go/marsLog"

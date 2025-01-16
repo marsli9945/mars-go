@@ -1,7 +1,6 @@
 package marsJson
 
 import (
-	"github.com/marsli9945/mars-go/marsJson"
 	"testing"
 )
 
@@ -9,7 +8,7 @@ import (
 func TestMarshal_Success(t *testing.T) {
 	input := map[string]string{"key": "value"}
 	expected := `{"key":"value"}`
-	result := marsJson.Marshal(input)
+	result := Marshal(input)
 	if result != expected {
 		t.Errorf("Expected %s, got %s", expected, result)
 	}
@@ -22,7 +21,7 @@ func TestMarshal_Failure(t *testing.T) {
 	}
 	cycle := Cycle{}
 	cycle.Ptr = &cycle
-	result := marsJson.Marshal(cycle)
+	result := Marshal(cycle)
 	if result != "{}" {
 		t.Errorf("Expected {}, got %s", result)
 	}
@@ -32,7 +31,7 @@ func TestMarshal_Failure(t *testing.T) {
 func TestUnMarshal_Success(t *testing.T) {
 	input := `{"key":"value"}`
 	var result map[string]string
-	err := marsJson.UnMarshal(input, &result)
+	err := UnMarshal(input, &result)
 	if err != nil {
 		t.Errorf("UnMarshal failed: %v", err)
 	}
@@ -57,7 +56,7 @@ func mapsEqual[T comparable, V comparable](m1, m2 map[T]V) bool {
 func TestUnMarshal_Failure(t *testing.T) {
 	input := `invalid json`
 	var result map[string]string
-	err := marsJson.UnMarshal(input, &result)
+	err := UnMarshal(input, &result)
 	if err == nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -70,7 +69,7 @@ func TestUnMarshal_Failure(t *testing.T) {
 func TestPrettyString_Success(t *testing.T) {
 	input := `{"key":"value"}`
 	expected := "{\n \"key\": \"value\"\n}"
-	result := marsJson.PrettyString(input)
+	result := PrettyString(input)
 	if result != expected {
 		t.Errorf("Expected %s, got %s", expected, result)
 	}
@@ -78,7 +77,7 @@ func TestPrettyString_Success(t *testing.T) {
 
 func TestPrettyString_Failure(t *testing.T) {
 	input := `invalid json`
-	result := marsJson.PrettyString(input)
+	result := PrettyString(input)
 	if result != "" {
 		t.Errorf("Expected empty string, got %s", result)
 	}
