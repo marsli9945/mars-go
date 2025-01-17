@@ -11,7 +11,7 @@ import (
 )
 
 type BaseRepo struct {
-	Repository *MongoRepository
+	*MongoRepository
 }
 
 type MongoRepository struct {
