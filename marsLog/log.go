@@ -5,7 +5,7 @@ import "context"
 func init() {
 	// 如果没有设置Logger, 则启动时使用默认的MarsDefaultLog对象
 	if Logger() == nil {
-		SetLogger(&MarsDefaultLog{})
+		SetLogger(&DefaultLog{})
 	}
 }
 

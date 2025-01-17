@@ -12,74 +12,74 @@ import (
 	"time"
 )
 
-// MarsDefaultLog 默认提供的日志对象
-type MarsDefaultLog struct{}
+// DefaultLog 默认提供的日志对象
+type DefaultLog struct{}
 
-func (log *MarsDefaultLog) Debug(v ...any) {
+func (log *DefaultLog) Debug(v ...any) {
 	if os.Getenv("DEBUG_ENABLE") == "true" {
 		setPrefix(DEBUG)
 		getLogger().Println(v...)
 	}
 }
 
-func (log *MarsDefaultLog) DebugF(str string, v ...any) {
+func (log *DefaultLog) DebugF(str string, v ...any) {
 	if os.Getenv("DEBUG_ENABLE") == "true" {
 		setPrefix(DEBUG)
 		getLogger().Printf(str, v...)
 	}
 }
 
-func (log *MarsDefaultLog) Info(v ...any) {
+func (log *DefaultLog) Info(v ...any) {
 	setPrefix(INFO)
 	getLogger().Println(v...)
 }
 
-func (log *MarsDefaultLog) InfoF(str string, v ...any) {
+func (log *DefaultLog) InfoF(str string, v ...any) {
 	setPrefix(INFO)
 	getLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) Warn(v ...any) {
+func (log *DefaultLog) Warn(v ...any) {
 	setPrefix(WARN)
 	getLogger().Println(v...)
 }
 
-func (log *MarsDefaultLog) WarnF(str string, v ...any) {
+func (log *DefaultLog) WarnF(str string, v ...any) {
 	setPrefix(WARN)
 	getLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) Error(v ...any) {
+func (log *DefaultLog) Error(v ...any) {
 	setPrefix(ERROR)
 	getErrorLogger().Println(v...)
 }
 
-func (log *MarsDefaultLog) ErrorF(str string, v ...any) {
+func (log *DefaultLog) ErrorF(str string, v ...any) {
 	setPrefix(ERROR)
 	getErrorLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) Fatal(v ...any) {
+func (log *DefaultLog) Fatal(v ...any) {
 	setPrefix(FATAL)
 	getErrorLogger().Println(v...)
 }
 
-func (log *MarsDefaultLog) FatalF(str string, v ...any) {
+func (log *DefaultLog) FatalF(str string, v ...any) {
 	setPrefix(FATAL)
 	getErrorLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) Json(v any) {
+func (log *DefaultLog) Json(v any) {
 	setPrefix(JSON)
 	getLogger().Println(marsJson.Marshal(v))
 }
 
-func (log *MarsDefaultLog) JsonFormat(v any) {
+func (log *DefaultLog) JsonFormat(v any) {
 	setPrefix(JSON)
 	getLogger().Println("\r\n" + marsJson.PrettyString(marsJson.Marshal(v)))
 }
 
-func (log *MarsDefaultLog) DebugFX(ctx context.Context, str string, v ...any) {
+func (log *DefaultLog) DebugFX(ctx context.Context, str string, v ...any) {
 	if os.Getenv("DEBUG_ENABLE") == "true" {
 		setPrefix(DEBUG)
 		getLogger().Println(ctx)
@@ -87,25 +87,25 @@ func (log *MarsDefaultLog) DebugFX(ctx context.Context, str string, v ...any) {
 	}
 }
 
-func (log *MarsDefaultLog) InfoFX(ctx context.Context, str string, v ...any) {
+func (log *DefaultLog) InfoFX(ctx context.Context, str string, v ...any) {
 	setPrefix(INFO)
 	getLogger().Println(ctx)
 	getLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) WarnFX(ctx context.Context, str string, v ...any) {
+func (log *DefaultLog) WarnFX(ctx context.Context, str string, v ...any) {
 	setPrefix(WARN)
 	getLogger().Println(ctx)
 	getLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) ErrorFX(ctx context.Context, str string, v ...any) {
+func (log *DefaultLog) ErrorFX(ctx context.Context, str string, v ...any) {
 	setPrefix(ERROR)
 	getErrorLogger().Println(ctx)
 	getErrorLogger().Printf(str, v...)
 }
 
-func (log *MarsDefaultLog) FatalFX(ctx context.Context, str string, v ...any) {
+func (log *DefaultLog) FatalFX(ctx context.Context, str string, v ...any) {
 	setPrefix(FATAL)
 	getErrorLogger().Println(ctx)
 	getErrorLogger().Printf(str, v...)
