@@ -1,6 +1,7 @@
 package marsSql
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"github.com/DATA-DOG/go-sqlmock"
@@ -29,7 +30,7 @@ func TestExecute_Success(t *testing.T) {
 	mock.ExpectExec("INSERT INTO users").WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectClose()
 
-	err = Execute(db, "INSERT INTO users (name) VALUES (?)", "John")
+	err = ExecuteContext(context.Background(), db, "INSERT INTO users (name) VALUES (?)", "John")
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
@@ -50,7 +51,7 @@ func TestExecute_Failure(t *testing.T) {
 	mock.ExpectExec("INSERT INTO users").WillReturnError(fmt.Errorf("SQL error"))
 	mock.ExpectClose()
 
-	err = Execute(db, "INSERT INTO users (name) VALUES (?)", "John")
+	err = ExecuteContext(context.Background(), db, "INSERT INTO users (name) VALUES (?)", "John")
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	}
@@ -76,7 +77,7 @@ func TestSelect_Success(t *testing.T) {
 	mock.ExpectClose()
 
 	var users []User
-	err = Select(db, "json", &users, "SELECT id, name FROM users")
+	err = SelectContext(context.Background(), db, "json", &users, "SELECT id, name FROM users")
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
@@ -102,7 +103,7 @@ func TestSelect_Failure(t *testing.T) {
 	mock.ExpectClose()
 
 	var users []User
-	err = Select(db, "json", &users, "SELECT id, name FROM users")
+	err = SelectContext(context.Background(), db, "json", &users, "SELECT id, name FROM users")
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	}

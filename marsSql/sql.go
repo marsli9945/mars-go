@@ -1,6 +1,7 @@
 package marsSql
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"github.com/marsli9945/mars-go/marsLog"
@@ -9,16 +10,16 @@ import (
 	"strings"
 )
 
-func Execute(db *sql.DB, query string, args ...any) error {
-	_, err := db.Exec(query, args...)
+func ExecuteContext(ctx context.Context, db *sql.DB, query string, args ...any) error {
+	_, err := db.ExecContext(ctx, query, args...)
 	if err != nil {
 		return fmt.Errorf("execute failed: %w", err)
 	}
 	return nil
 }
 
-func Select(db *sql.DB, fieldTag string, results any, sentence string, args ...any) error {
-	query, err := db.Query(sentence, args...)
+func SelectContext(ctx context.Context, db *sql.DB, fieldTag string, results any, sentence string, args ...any) error {
+	query, err := db.QueryContext(ctx, sentence, args...)
 	if err != nil {
 		return fmt.Errorf("query failed: %w", err)
 	}

@@ -2,7 +2,7 @@ git tag
 
 git show v0.0.2
 
-git tag -a v0.0.2 -m "Add type,json,http"
+git tag -a v0.0.4 -m "调整mongoRepo命名"
 
 git push origin v0.0.2
 

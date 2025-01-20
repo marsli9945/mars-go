@@ -13,15 +13,24 @@ type DBRepository struct {
 }
 
 func (repository *DBRepository) Execute(sql string, args ...any) error {
-	return marsSql.Execute(repository.DB, sql, args...)
+	return marsSql.ExecuteContext(context.Background(), repository.DB, sql, args...)
+}
+
+func (repository *DBRepository) ExecuteContext(ctx context.Context, sql string, args ...any) error {
+	return marsSql.ExecuteContext(ctx, repository.DB, sql, args...)
 }
 
 func (repository *DBRepository) Select(results any, sentence string, args ...any) error {
-	return marsSql.Select(repository.DB, repository.FieldTag, results, sentence, args...)
+	return marsSql.SelectContext(context.Background(), repository.DB, repository.FieldTag, results, sentence, args...)
+}
+func (repository *DBRepository) SelectContext(ctx context.Context, results any, sentence string, args ...any) error {
+	return marsSql.SelectContext(ctx, repository.DB, repository.FieldTag, results, sentence, args...)
 }
 
 func (repository *DBRepository) PrepareBatch(query string, rows [][]interface{}) error {
-	ctx := context.Background()
+	return repository.PrepareBatchContext(context.Background(), query, rows)
+}
+func (repository *DBRepository) PrepareBatchContext(ctx context.Context, query string, rows [][]interface{}) error {
 	// 开始事务
 	tx, err := repository.DB.BeginTx(ctx, nil)
 	if err != nil {
