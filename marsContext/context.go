@@ -13,7 +13,7 @@ type Context struct {
 	mu          sync.RWMutex
 }
 
-func (c *Context) Value(key interface{}) interface{} {
+func (c *Context) Value(key any) any {
 	if keyStr, ok := key.(string); ok && keyStr == "customKey" {
 		c.mu.RLock()
 		defer c.mu.RUnlock()

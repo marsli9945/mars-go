@@ -1,31 +1,33 @@
 package marsGin
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data any    `json:"data"`
 }
 
 // Response setting gin.JSON
-func (g *Gin) Response(httpCode, errCode int, msg string, data interface{}) {
-	g.C.JSON(httpCode, Response{
+func (g *Gin) Response(httpCode, errCode int, msg string, data any) {
+	g.JSON(httpCode, Response{
 		Code: errCode,
 		Msg:  msg,
 		Data: data,
 	})
 }
 
-func (g *Gin) ResponseHttpOk(errCode int, msg string, data interface{}) {
+func (g *Gin) ResponseHttpOk(errCode int, msg string, data any) {
 	g.Response(http.StatusOK, errCode, msg, data)
 }
 
-func (g *Gin) ResponseCode(errCode int, data interface{}) {
+func (g *Gin) ResponseCode(errCode int, data any) {
 	g.ResponseHttpOk(errCode, GetMsg(errCode), data)
 }
 
-func (g *Gin) Success(data interface{}) {
+func (g *Gin) Success(data any) {
 	g.ResponseCode(SUCCESS, data)
 }
 

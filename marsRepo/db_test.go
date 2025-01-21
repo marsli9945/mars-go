@@ -24,7 +24,7 @@ func TestPrepareBatch_TransactionBeginFails_ReturnsError(t *testing.T) {
 	mock.ExpectBegin().WillReturnError(errors.New("transaction begin error"))
 
 	repo := &DBRepository{DB: db}
-	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]interface{}{{1, "value1"}})
+	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]any{{1, "value1"}})
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	} else {
@@ -51,7 +51,7 @@ func TestPrepareBatch_PrepareStatementFails_ReturnsError(t *testing.T) {
 	mock.ExpectRollback()
 
 	repo := &DBRepository{DB: db}
-	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]interface{}{{1, "value1"}})
+	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]any{{1, "value1"}})
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	}
@@ -82,7 +82,7 @@ func TestPrepareBatch_ExecStatementFails_ReturnsError(t *testing.T) {
 	mock.ExpectCommit()
 
 	repo := &DBRepository{DB: db}
-	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]interface{}{{1, "value1"}, {2, "value2"}})
+	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]any{{1, "value1"}, {2, "value2"}})
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	} else {
@@ -110,7 +110,7 @@ func TestPrepareBatch_CommitTransactionFails_ReturnsError(t *testing.T) {
 	mock.ExpectCommit().WillReturnError(errors.New("commit transaction error"))
 
 	repo := &DBRepository{DB: db}
-	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]interface{}{{1, "value1"}})
+	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]any{{1, "value1"}})
 	if err == nil {
 		t.Errorf("expected an error, got nil")
 	} else {
@@ -138,7 +138,7 @@ func TestPrepareBatch_SuccessfulExecution_ReturnsNoError(t *testing.T) {
 	mock.ExpectCommit()
 
 	repo := &DBRepository{DB: db}
-	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]interface{}{{1, "value1"}})
+	err = repo.PrepareBatch("INSERT INTO table (col1, col2) VALUES (?, ?)", [][]any{{1, "value1"}})
 	if err != nil {
 		t.Errorf("expected no error, got '%s'", err.Error())
 	}

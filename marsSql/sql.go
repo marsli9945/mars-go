@@ -59,7 +59,7 @@ func SelectContext(ctx context.Context, db *sql.DB, fieldTag string, results any
 	return nil
 }
 
-func mapToAllSlice(fieldTag string, data []map[string]interface{}, results interface{}) error {
+func mapToAllSlice(fieldTag string, data []map[string]any, results any) error {
 	// 获取目标结构体的类型和值
 	resultsType := reflect.TypeOf(results)
 	resultsValue := reflect.ValueOf(results)
@@ -147,7 +147,7 @@ func mapToStructSlice(fieldTag string, data []map[string]any, sliceVal reflect.T
 	}
 }
 
-func mapToMapSlice(data []map[string]interface{}, sliceVal reflect.Type, resultsValue reflect.Value) {
+func mapToMapSlice(data []map[string]any, sliceVal reflect.Type, resultsValue reflect.Value) {
 	// 创建用于存放结果的切片
 	resultsSlice := reflect.MakeSlice(sliceVal, 0, len(data))
 

@@ -11,27 +11,27 @@ func init() {
 
 type MarsLogger interface {
 	// Debug 无上下文的Info级别日志接口, format字符串格式
-	Debug(v ...interface{})
-	DebugF(str string, v ...interface{})
-	Info(v ...interface{})
-	InfoF(str string, v ...interface{})
-	Warn(v ...interface{})
-	WarnF(str string, v ...interface{})
-	Error(v ...interface{})
-	ErrorF(str string, v ...interface{})
-	Fatal(v ...interface{})
-	FatalF(str string, v ...interface{})
+	Debug(v ...any)
+	DebugF(str string, v ...any)
+	Info(v ...any)
+	InfoF(str string, v ...any)
+	Warn(v ...any)
+	WarnF(str string, v ...any)
+	Error(v ...any)
+	ErrorF(str string, v ...any)
+	Fatal(v ...any)
+	FatalF(str string, v ...any)
 
 	// Json 打印json
-	Json(v interface{})
-	JsonFormat(v interface{})
+	Json(v any)
+	JsonFormat(v any)
 
 	// DebugFX 有上下文的Info级别日志接口, format字符串格式
-	DebugFX(ctx context.Context, str string, v ...interface{})
-	InfoFX(ctx context.Context, str string, v ...interface{})
-	WarnFX(ctx context.Context, str string, v ...interface{})
-	ErrorFX(ctx context.Context, str string, v ...interface{})
-	FatalFX(ctx context.Context, str string, v ...interface{})
+	DebugFX(ctx context.Context, str string, v ...any)
+	InfoFX(ctx context.Context, str string, v ...any)
+	WarnFX(ctx context.Context, str string, v ...any)
+	ErrorFX(ctx context.Context, str string, v ...any)
+	FatalFX(ctx context.Context, str string, v ...any)
 }
 
 // MarsLog 默认的KisLog 对象

@@ -110,7 +110,7 @@ func TestSelect_Failure(t *testing.T) {
 }
 
 func TestMapToAllSlice_StructSlice_Success(t *testing.T) {
-	data := []map[string]interface{}{
+	data := []map[string]any{
 		{"id": 1, "name": "John"},
 		{"id": 2, "name": "Jane"},
 	}
@@ -135,12 +135,12 @@ func TestMapToAllSlice_StructSlice_Success(t *testing.T) {
 }
 
 func TestMapToAllSlice_MapSlice_Success(t *testing.T) {
-	data := []map[string]interface{}{
+	data := []map[string]any{
 		{"id": 1, "name": "John"},
 		{"id": 2, "name": "Jane"},
 	}
 
-	var users []map[string]interface{}
+	var users []map[string]any
 	err := mapToAllSlice("json", data, &users)
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
@@ -152,7 +152,7 @@ func TestMapToAllSlice_MapSlice_Success(t *testing.T) {
 }
 
 func TestMapToAllSlice_UnsupportedType(t *testing.T) {
-	data := []map[string]interface{}{
+	data := []map[string]any{
 		{"id": 1, "name": "John"},
 	}
 
@@ -185,12 +185,12 @@ func TestMapToStructSlice_Success(t *testing.T) {
 }
 
 func TestMapToMapSlice_Success(t *testing.T) {
-	data := []map[string]interface{}{
+	data := []map[string]any{
 		{"id": 1, "name": "John"},
 		{"id": 2, "name": "Jane"},
 	}
 
-	var users []map[string]interface{}
+	var users []map[string]any
 	mapToMapSlice(data, reflect.TypeOf(&users).Elem(), reflect.ValueOf(&users))
 	if len(users) != 2 {
 		t.Errorf("expected 2 users, got %d", len(users))

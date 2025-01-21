@@ -1,4 +1,4 @@
-package util
+package marsJwt
 
 import (
 	"time"
@@ -34,7 +34,7 @@ func GenerateToken(username string, jwtExpireTime time.Duration) (string, error)
 
 // ParseToken parsing token
 func ParseToken(token string) (*Claims, error) {
-	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (any, error) {
 		return jwtSecret, nil
 	})
 

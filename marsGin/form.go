@@ -2,6 +2,7 @@ package marsGin
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/marsli9945/mars-go/marsLog"
 )
 
 var validate *validator.Validate
@@ -14,26 +15,30 @@ func getValidate() *validator.Validate {
 }
 
 // BindAndValid binds and validates data
-func (g *Gin) BindAndValid(form interface{}) {
+func (g *Gin) BindAndValid(form any) {
 	var err error
-	err = g.C.Bind(form)
+	err = g.Bind(form)
 	if err != nil {
+		marsLog.Logger().ErrorF("BindAndValid error: %v", err)
 		panic(err)
 	}
 	err = getValidate().Struct(form)
 	if err != nil {
+		marsLog.Logger().ErrorF("BindAndValid error: %v", err)
 		panic(err)
 	}
 }
 
-func (g *Gin) BindQueryAndValid(form interface{}) {
+func (g *Gin) BindQueryAndValid(form any) {
 	var err error
-	err = g.C.BindQuery(form)
+	err = g.BindQuery(form)
 	if err != nil {
+		marsLog.Logger().ErrorF("BindQueryAndValid error: %v", err)
 		panic(GetMsg(INVALID_PARAMS))
 	}
 	err = getValidate().Struct(form)
 	if err != nil {
+		marsLog.Logger().ErrorF("BindQueryAndValid error: %v", err)
 		panic(err)
 	}
 }

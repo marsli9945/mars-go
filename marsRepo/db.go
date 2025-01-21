@@ -27,10 +27,10 @@ func (repository *DBRepository) SelectContext(ctx context.Context, results any, 
 	return marsSql.SelectContext(ctx, repository.DB, repository.FieldTag, results, sentence, args...)
 }
 
-func (repository *DBRepository) PrepareBatch(query string, rows [][]interface{}) error {
+func (repository *DBRepository) PrepareBatch(query string, rows [][]any) error {
 	return repository.PrepareBatchContext(context.Background(), query, rows)
 }
-func (repository *DBRepository) PrepareBatchContext(ctx context.Context, query string, rows [][]interface{}) error {
+func (repository *DBRepository) PrepareBatchContext(ctx context.Context, query string, rows [][]any) error {
 	// 开始事务
 	tx, err := repository.DB.BeginTx(ctx, nil)
 	if err != nil {

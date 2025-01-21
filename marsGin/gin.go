@@ -5,11 +5,9 @@ import (
 )
 
 type Gin struct {
-	C *gin.Context
+	*gin.Context
 }
 
 func GetGin(c *gin.Context) *Gin {
-	return &Gin{
-		C: c,
-	}
+	return &Gin{c}
 }
