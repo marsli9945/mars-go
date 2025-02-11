@@ -8,7 +8,10 @@ import (
 
 func TestSet_Add(t *testing.T) {
 	set := NewSet[int]()
-	set.Add(1)
+	set.Add(1, 2, 1)
+	set.Add(3)
+	set.Add(3)
+	set.Add(4)
 	if !set.Contains(1) {
 		t.Errorf("Expected set to contain 1")
 	}
