@@ -1,17 +1,19 @@
 package marsType
 
 import (
+	"github.com/marsli9945/mars-go/marsLog"
 	"reflect"
 	"sort"
 	"testing"
 )
 
 func TestSet_Add(t *testing.T) {
-	set := NewSet[int]()
+	set := NewSet[int](7, 8, 9)
 	set.Add(1, 2, 1)
 	set.Add(3)
 	set.Add(3)
 	set.Add(4)
+	marsLog.Logger().Info(set)
 	if !set.Contains(1) {
 		t.Errorf("Expected set to contain 1")
 	}

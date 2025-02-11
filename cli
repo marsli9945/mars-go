@@ -2,8 +2,8 @@ git tag
 
 git show v0.0.2
 
-git tag -a v0.0.4 -m "调整mongoRepo命名"
+git tag -a v0.0.6 -m "优化set初始化和add方法"
 
-git push origin v0.0.2
+git push origin v0.0.6
 
 git push origin --tags
