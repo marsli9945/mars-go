@@ -8,6 +8,8 @@ type Gin struct {
 	*gin.Context
 }
 
-func GetGin(c *gin.Context) *Gin {
-	return &Gin{c}
+func TransformHandle(handle func(g *Gin)) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		handle(&Gin{c})
+	}
 }

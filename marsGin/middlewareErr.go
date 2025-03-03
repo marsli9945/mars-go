@@ -8,14 +8,14 @@ import (
 )
 
 func MiddlewareErr() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return TransformHandle(func(g *Gin) {
 		defer func() {
 			if err := recover(); err != nil {
 				marsLog.Logger().Error(err, string(debug.Stack()))
-				GetGin(c).ErrorMsg(fmt.Sprintf("%s ", err))
-				c.Abort()
+				g.ErrorMsg(fmt.Sprintf("%s ", err))
+				g.Context.Abort()
 			}
 		}()
-		c.Next()
-	}
+		g.Context.Next()
+	})
 }
