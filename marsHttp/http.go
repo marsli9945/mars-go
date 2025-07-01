@@ -7,12 +7,19 @@ import (
 	"github.com/marsli9945/mars-go/marsLog"
 	"io"
 	"net/http"
+	"strings"
 )
 
 var client = &http.Client{}
 
+const (
+	HeaderContentType = "Content-Type"
+	ContentTypeJSON   = "application/json"
+	ContentTypeForm   = "application/x-www-form-urlencoded"
+)
+
 func Get(url string) (string, error) {
-	req, err := getRequest(url, nil, http.MethodGet)
+	req, err := getRequest(url, nil, make(map[string]string), http.MethodGet)
 	if err != nil {
 		return "", err
 	}
@@ -24,7 +31,7 @@ func Get(url string) (string, error) {
 }
 
 func GetAndHeaderForStruct(url string, headers map[string]string, result any) error {
-	req, err := getRequest(url, nil, http.MethodGet)
+	req, err := getRequest(url, nil, headers, http.MethodGet)
 	if err != nil {
 		return err
 	}
@@ -43,7 +50,7 @@ func GetAndHeaderForStruct(url string, headers map[string]string, result any) er
 }
 
 func Post(url string, data map[string]any) (string, error) {
-	req, err := getRequest(url, data, http.MethodPost)
+	req, err := getRequest(url, data, make(map[string]string), http.MethodPost)
 	if err != nil {
 		return "", err
 	}
@@ -55,7 +62,7 @@ func Post(url string, data map[string]any) (string, error) {
 }
 
 func PostAndHeaderForStruct(url string, data map[string]any, headers map[string]string, result any) error {
-	req, err := getRequest(url, data, http.MethodPost)
+	req, err := getRequest(url, data, headers, http.MethodPost)
 	if err != nil {
 		return err
 	}
@@ -73,19 +80,46 @@ func PostAndHeaderForStruct(url string, data map[string]any, headers map[string]
 	return nil
 }
 
-func getRequest(url string, data any, method string) (*http.Request, error) {
+func getRequest(url string, data map[string]any, headers map[string]string, method string) (*http.Request, error) {
 	if method == http.MethodGet || data == nil {
 		return http.NewRequest(method, url, nil)
 	}
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return nil, err
+
+	var err error
+	var dataStr string
+	var req *http.Request
+	dataBytes := make([]byte, 0)
+	if contentType, ok := headers[HeaderContentType]; ok {
+		if strings.Contains(contentType, ContentTypeForm) {
+
+			for k, v := range data {
+				dataStr += fmt.Sprintf("%s=%v&", k, v)
+			}
+			dataStr = dataStr[:len(dataStr)-1]
+			dataBytes = []byte(dataStr)
+		}
+		if strings.Contains(contentType, ContentTypeJSON) {
+			dataBytes, err = json.Marshal(data)
+			if err != nil {
+				return nil, err
+			}
+		}
+		req, err = http.NewRequest(method, url, bytes.NewBuffer(dataBytes))
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		dataBytes, err = json.Marshal(data)
+		if err != nil {
+			return nil, err
+		}
+
+		req, err = http.NewRequest(method, url, bytes.NewBuffer(dataBytes))
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set(HeaderContentType, ContentTypeJSON)
 	}
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Content-Type", "application/json")
 	return req, nil
 }
 
